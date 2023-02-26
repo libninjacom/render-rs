@@ -59,7 +59,7 @@ render_api = "0.1.0"
 
 
 
-* [Client Library Documentation](https://docs.rs/render_api)
+* [Client Library Documentation](https://docs.rs/render-api)
 
 
 You can see working examples of every API call in the `examples/` directory.
