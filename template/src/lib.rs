@@ -132,17 +132,17 @@ impl RenderClient {
         let gql = GqlRequest {
             operation_name: "envGroupsForOwner",
             variables: serde_json::json!({
-                ownerId: owner_id
+                "ownerId": owner_id,
             }),
             query: ENV_GROUPS_FOR_OWNER,
         };
-        let req = httpclient::Client::new()
+        let req = self.client
             .post(url)
             .json(&gql);
         let res = self.authenticate(req)
             .send_awaiting_body()
             .await?;
-        let res: serde_json::Value = res.json()?;
+        let mut res: serde_json::Value = res.json()?;
         let groups: Vec<EnvGroup> = serde_json::from_value(res["data"]["envGroupsForOwner"].take())?;
         Ok(groups)
     }
@@ -152,19 +152,19 @@ impl RenderClient {
         let gql = GqlRequest {
             operation_name: "createEnvGroup",
             variables: serde_json::json!({
-                ownerId: owner_id,
-                name: name
-                envVarInputs: vars,
+                "ownerId": owner_id,
+                "name": name,
+                "envVarInputs": vars,
             }),
             query: CREATE_ENV_GROUP,
         };
-        let req = httpclient::Client::new()
+        let req = self.client
             .post(url)
             .json(&gql);
         let res = self.authenticate(req)
             .send_awaiting_body()
             .await?;
-        let res: serde_json::Value = res.json()?;
+        let mut res: serde_json::Value = res.json()?;
         let group: EnvGroup = serde_json::from_value(res["data"]["createEnvGroup"].take())?;
         Ok(group)
     }
@@ -174,18 +174,18 @@ impl RenderClient {
         let gql = GqlRequest {
             operation_name: "updateEnvGroup",
             variables: serde_json::json!({
-                envGroupId: group_id,
-                envVarInputs: vars,
+                "envGroupId": group_id,
+                "envVarInputs": vars,
             }),
             query: UPDATE_ENV_GROUP,
         };
-        let req = httpclient::Client::new()
+        let req = self.client
             .post(url)
             .json(&gql);
         let res = self.authenticate(req)
             .send_awaiting_body()
             .await?;
-        let res: serde_json::Value = res.json()?;
+        let mut res: serde_json::Value = res.json()?;
         let group: EnvGroup = serde_json::from_value(res["data"]["updateEnvGroup"].take())?;
         Ok(group)
     }

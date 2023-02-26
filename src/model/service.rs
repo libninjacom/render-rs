@@ -1,7 +1,6 @@
 
 use serde::{Serialize, Deserialize};
-use super::ServiceDetails;
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct Service {
     #[serde(rename = "autoDeploy")]
     pub auto_deploy: String,
@@ -15,8 +14,6 @@ pub struct Service {
     #[serde(rename = "ownerId")]
     pub owner_id: String,
     pub repo: String,
-    #[serde(rename = "serviceDetails")]
-    pub service_details: ServiceDetails,
     pub slug: String,
     pub suspended: String,
     pub suspenders: Vec<String>,
