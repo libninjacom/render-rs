@@ -9,7 +9,7 @@ async fn main() {
         .list_deploys(service_id)
         .cursor("your cursor")
         .end_time("your end time")
-        .limit("your limit")
+        .limit(1)
         .start_time("your start time")
         .await
         .unwrap();

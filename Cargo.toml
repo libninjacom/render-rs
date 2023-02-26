@@ -165,6 +165,12 @@ edition = "2021"
 required-features = []
 
 [[example]]
+path = "examples/trigger_deploy.rs"
+name = "trigger_deploy"
+edition = "2021"
+required-features = []
+
+[[example]]
 path = "examples/update_environment_variables.rs"
 name = "update_environment_variables"
 edition = "2021"

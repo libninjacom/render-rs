@@ -9,7 +9,7 @@ pub struct ListDeploysRequest<'a> {
     pub(crate) http_client: &'a RenderClient,
     pub cursor: Option<String>,
     pub end_time: Option<String>,
-    pub limit: Option<String>,
+    pub limit: Option<i64>,
     pub service_id: String,
     pub start_time: Option<String>,
 }
@@ -45,8 +45,8 @@ impl<'a> ListDeploysRequest<'a> {
         self.end_time = Some(end_time.to_owned());
         self
     }
-    pub fn limit(mut self, limit: &str) -> Self {
-        self.limit = Some(limit.to_owned());
+    pub fn limit(mut self, limit: i64) -> Self {
+        self.limit = Some(limit);
         self
     }
     pub fn start_time(mut self, start_time: &str) -> Self {

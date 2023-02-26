@@ -11,7 +11,7 @@ pub struct ListServicesRequest<'a> {
     pub created_before: Option<String>,
     pub cursor: Option<String>,
     pub env: Option<String>,
-    pub limit: Option<String>,
+    pub limit: Option<i64>,
     pub name: Option<String>,
     pub owner_id: Option<String>,
     pub region: Option<String>,
@@ -79,8 +79,8 @@ impl<'a> ListServicesRequest<'a> {
         self.env = Some(env.to_owned());
         self
     }
-    pub fn limit(mut self, limit: &str) -> Self {
-        self.limit = Some(limit.to_owned());
+    pub fn limit(mut self, limit: i64) -> Self {
+        self.limit = Some(limit);
         self
     }
     pub fn name(mut self, name: &str) -> Self {

@@ -5,13 +5,13 @@ use crate::RenderClient;
 
 That method takes required values as arguments. Set optional values using builder methods on this struct.*/
 #[derive(Clone)]
-pub struct TriggerADeployRequest<'a> {
+pub struct TriggerDeployRequest<'a> {
     pub(crate) http_client: &'a RenderClient,
     pub clear_cache: Option<String>,
     pub service_id: String,
 }
-impl<'a> TriggerADeployRequest<'a> {
-    pub async fn send(self) -> ::httpclient::InMemoryResult<serde_json::Value> {
+impl<'a> TriggerDeployRequest<'a> {
+    pub async fn send(self) -> ::httpclient::InMemoryResult<Deploy> {
         let mut r = self
             .http_client
             .client
@@ -30,8 +30,8 @@ impl<'a> TriggerADeployRequest<'a> {
         self
     }
 }
-impl<'a> ::std::future::IntoFuture for TriggerADeployRequest<'a> {
-    type Output = httpclient::InMemoryResult<serde_json::Value>;
+impl<'a> ::std::future::IntoFuture for TriggerDeployRequest<'a> {
+    type Output = httpclient::InMemoryResult<Deploy>;
     type IntoFuture = ::futures::future::BoxFuture<'a, Self::Output>;
     fn into_future(self) -> Self::IntoFuture {
         Box::pin(self.send())

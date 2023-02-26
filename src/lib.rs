@@ -429,8 +429,8 @@ impl RenderClient {
     /**Trigger a deploy
 
 [https://api-docs.render.com/reference/create-deploy](https://api-docs.render.com/reference/create-deploy)*/
-    pub fn trigger_a_deploy(&self, service_id: &str) -> request::TriggerADeployRequest {
-        request::TriggerADeployRequest {
+    pub fn trigger_deploy(&self, service_id: &str) -> request::TriggerDeployRequest {
+        request::TriggerDeployRequest {
             http_client: &self,
             clear_cache: None,
             service_id: service_id.to_owned(),
