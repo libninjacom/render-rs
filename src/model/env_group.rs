@@ -1,24 +1,20 @@
 
 use serde::{Serialize, Deserialize};
 use super::{EnvVar, SecretFile, ServiceLink};
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EnvGroup {
     #[serde(rename = "envVars")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub env_vars: Option<Vec<EnvVar>>,
+    pub env_vars: Vec<EnvVar>,
     pub id: String,
     pub name: String,
     #[serde(rename = "ownerId")]
     pub owner_id: String,
     #[serde(rename = "secretFiles")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub secret_files: Option<Vec<SecretFile>>,
+    pub secret_files: Vec<SecretFile>,
     #[serde(rename = "serviceLinks")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub service_links: Option<Vec<ServiceLink>>,
+    pub service_links: Vec<ServiceLink>,
     #[serde(rename = "updatedAt")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub updated_at: Option<chrono::DateTime<chrono::Utc>>,
+    pub updated_at: chrono::DateTime<chrono::Utc>,
 }
 impl std::fmt::Display for EnvGroup {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
