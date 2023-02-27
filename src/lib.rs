@@ -242,7 +242,7 @@ use crate::model::*;
     //     Ok(group)
     // }
 // }
-mod custom_serde;
+mod serde;
 pub struct RenderClient {
     pub client: httpclient::Client,
     authentication: RenderAuthentication,
