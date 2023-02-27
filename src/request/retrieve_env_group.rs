@@ -5,27 +5,25 @@ use crate::RenderClient;
 
 That method takes required values as arguments. Set optional values using builder methods on this struct.*/
 #[derive(Clone)]
-pub struct UpdateEnvironmentVariablesRequest<'a> {
+pub struct RetrieveEnvGroupRequest<'a> {
     pub(crate) http_client: &'a RenderClient,
-    pub body: Vec<EnvVar>,
-    pub service_id: String,
+    pub env_group_id: String,
 }
-impl<'a> UpdateEnvironmentVariablesRequest<'a> {
-    pub async fn send(self) -> ::httpclient::InMemoryResult<Vec<EnvVarCursor>> {
+impl<'a> RetrieveEnvGroupRequest<'a> {
+    pub async fn send(self) -> ::httpclient::InMemoryResult<EnvGroup> {
         let mut r = self
             .http_client
             .client
-            .put(
-                &format!("/services/{service_id}/env-vars", service_id = self.service_id),
+            .get(
+                &format!("/env-groups/{env_group_id}", env_group_id = self.env_group_id),
             );
-        r = r.json(json!({ "body" : self.body }));
         r = self.http_client.authenticate(r);
         let res = r.send_awaiting_body().await?;
         res.json()
     }
 }
-impl<'a> ::std::future::IntoFuture for UpdateEnvironmentVariablesRequest<'a> {
-    type Output = httpclient::InMemoryResult<Vec<EnvVarCursor>>;
+impl<'a> ::std::future::IntoFuture for RetrieveEnvGroupRequest<'a> {
+    type Output = httpclient::InMemoryResult<EnvGroup>;
     type IntoFuture = ::futures::future::BoxFuture<'a, Self::Output>;
     fn into_future(self) -> Self::IntoFuture {
         Box::pin(self.send())

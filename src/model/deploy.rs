@@ -5,13 +5,13 @@ use super::Commit;
 pub struct Deploy {
     pub commit: Commit,
     #[serde(rename = "createdAt")]
-    pub created_at: String,
+    pub created_at: chrono::DateTime<chrono::Utc>,
     #[serde(rename = "finishedAt")]
-    pub finished_at: String,
+    pub finished_at: chrono::DateTime<chrono::Utc>,
     pub id: String,
     pub status: String,
     #[serde(rename = "updatedAt")]
-    pub updated_at: String,
+    pub updated_at: chrono::DateTime<chrono::Utc>,
 }
 impl std::fmt::Display for Deploy {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {

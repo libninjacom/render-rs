@@ -58,4 +58,4 @@ test-full:
     done
 
 generate:
-    libninja gen -lrust -p render_api Render ~/work/render-openapi/openapi.yaml  --repo libninjacom/render-rs -o .
+    libninja gen -lrust -p render_api Render ~/work/render-openapi/openapi.yaml  --repo libninjacom/render-rs -o . --version $(toml get Cargo.toml package.version)

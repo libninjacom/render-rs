@@ -13,7 +13,7 @@ pub struct ListAuthorizedUsersAndTeamsRequest<'a> {
     pub name: Option<String>,
 }
 impl<'a> ListAuthorizedUsersAndTeamsRequest<'a> {
-    pub async fn send(self) -> ::httpclient::InMemoryResult<Vec<serde_json::Value>> {
+    pub async fn send(self) -> ::httpclient::InMemoryResult<Vec<OwnerCursor>> {
         let mut r = self.http_client.client.get("/owners");
         if let Some(ref unwrapped) = self.cursor {
             r = r.query("cursor", &unwrapped.to_string());
@@ -49,7 +49,7 @@ impl<'a> ListAuthorizedUsersAndTeamsRequest<'a> {
     }
 }
 impl<'a> ::std::future::IntoFuture for ListAuthorizedUsersAndTeamsRequest<'a> {
-    type Output = httpclient::InMemoryResult<Vec<serde_json::Value>>;
+    type Output = httpclient::InMemoryResult<Vec<OwnerCursor>>;
     type IntoFuture = ::futures::future::BoxFuture<'a, Self::Output>;
     fn into_future(self) -> Self::IntoFuture {
         Box::pin(self.send())
