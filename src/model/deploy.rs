@@ -7,7 +7,8 @@ pub struct Deploy {
     #[serde(rename = "createdAt")]
     pub created_at: chrono::DateTime<chrono::Utc>,
     #[serde(rename = "finishedAt")]
-    pub finished_at: chrono::DateTime<chrono::Utc>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub finished_at: Option<chrono::DateTime<chrono::Utc>>,
     pub id: String,
     pub status: String,
     #[serde(rename = "updatedAt")]
