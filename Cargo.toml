@@ -176,12 +176,6 @@ edition = "2021"
 required-features = []
 
 [[example]]
-path = "examples/trigger_a_deploy.rs"
-name = "trigger_a_deploy"
-edition = "2021"
-required-features = []
-
-[[example]]
 path = "examples/trigger_deploy.rs"
 name = "trigger_deploy"
 edition = "2021"
