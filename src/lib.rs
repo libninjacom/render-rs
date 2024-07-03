@@ -4,245 +4,14 @@
 #![allow(non_camel_case_types)]
 #![allow(unused)]
 
-pub mod model;
-pub mod request;
-use ::serde::{Serialize, Deserialize};
+use ::serde::{Deserialize, Serialize};
 
 use crate::model::*;
 
-/// All this commented out code doesn't work because Render uses different tokens
-/// for the GraphQL authentication (used by Render.com) and for the Rest API.
-/// Hopefully Render.com implements REST API endpoints for creating & updating env-groups soon...
-// #[derive(Clone, Debug, Serialize)]
-// pub struct GqlRequest {
-//     pub operation_name: &'static str,
-//     pub variables: serde_json::Value,
-//     pub query: &'static str,
-// }
-
-// #[derive(Clone, Debug, Serialize, Deserialize)]
-// pub struct EnvGroup {
-//     pub id: String,
-//     pub name: String,
-//     #[serde(rename = "ownerId")]
-//     pub owner_id: String,
-//     #[serde(rename = "created_at")]
-//     pub created_at: String,
-//     #[serde(rename = "updatedAt")]
-//     pub updated_at: String,
-//     #[serde(rename = "envVars")]
-//     pub env_vars: Vec<GqlEnvVar>,
-// }
-
-// #[derive(Clone, Debug, Serialize, Deserialize)]
-// pub struct GqlEnvVar {
-//     pub id: String,
-//     pub key: String,
-//     pub value: String,
-//     #[serde(rename = "isFile")]
-//     pub is_file: bool,
-// }
-
-// impl From<(&str, &str)> for GqlEnvVar {
-//     fn from((key, value): (&str, &str)) -> Self {
-//         Self {
-//             id: "".to_string(),
-//             key: key.to_string(),
-//             value: value.to_string(),
-//             is_file: false,
-//         }
-//     }
-// }
-
-// const ENV_GROUPS_FOR_OWNER: &str = r#"
-// query envGroupsForOwner($ownerId: String!) {
-//   envGroupsForOwner(ownerId: $ownerId) {
-//     ...envGroupFields
-//     __typename
-//   }
-// }
-//
-// fragment envGroupFields on EnvGroup {
-//   id
-//   name
-//   ownerId
-//   created_at
-//   updatedAt
-//   envVars {
-//     ...envVarFields
-//     __typename
-//   }
-//   __typename
-// }
-//
-// fragment envVarFields on EnvVar {
-//   id
-//   isFile
-//   key
-//   value
-//   __typename
-// }"#;
-//
-//
-// const CREATE_ENV_GROUP: &str = r#"
-// mutation createEnvGroup($name: String!, $envVarInputs: [EnvVarInput!]!, $ownerId: String!) {
-//   createEnvGroup(name: $name, envVarInputs: $envVarInputs, ownerId: $ownerId) {
-//     ...envGroupFields
-//     __typename
-//   }
-// }
-//
-// fragment envGroupFields on EnvGroup {
-//   id
-//   name
-//   ownerId
-//   createdAt
-//   updatedAt
-//   envVars {
-//     ...envVarFields
-//     __typename
-//   }
-//   __typename
-// }
-//
-// fragment envVarFields on EnvVar {
-//   id
-//   isFile
-//   key
-//   value
-//   __typename
-// }"#;
-//
-// const UPDATE_ENV_GROUP: &str = r#"
-// mutation updateEnvGroupEnvVars($id: String!, $envVarInputs: [EnvVarInput!]!) {
-//   updateEnvGroupEnvVars(id: $id, envVarInputs: $envVarInputs) {
-//     ...envVarFields
-//     __typename
-//   }
-// }
-//
-// fragment envVarFields on EnvVar {
-//   id
-//   isFile
-//   key
-//   value
-//   __typename
-// }"#;
-//
-// const GET_ENV_GROUP: &str = r#"
-// query envGroup($id: String!) {
-//   envGroup(id: $id) {
-//     ...envGroupFields
-//     __typename
-//   }
-// }
-//
-// fragment envGroupFields on EnvGroup {
-//   id
-//   name
-//   ownerId
-//   createdAt
-//   updatedAt
-//   envVars {
-//     ...envVarFields
-//     __typename
-//   }
-//   __typename
-// }
-//
-// fragment envVarFields on EnvVar {
-//   id
-//   isFile
-//   key
-//   value
-//   __typename
-// }"#;
-
-// impl RenderClient {
-    // pub async fn get_env_groups(&self, owner_id: &str) -> httpclient::Result<Vec<EnvGroup>> {
-    //     let url = "https://api.render.com/graphql";
-    //     let gql = GqlRequest {
-    //         operation_name: "envGroupsForOwner",
-    //         variables: serde_json::json!({
-    //             "ownerId": owner_id,
-    //         }),
-    //         query: ENV_GROUPS_FOR_OWNER,
-    //     };
-    //     let req = self.client
-    //         .post(url)
-    //         .json(&gql);
-    //     let res = self.authenticate(req)
-    //         .send_awaiting_body()
-    //         .await?;
-    //     let mut res: serde_json::Value = res.json()?;
-    //     let groups: Vec<EnvGroup> = serde_json::from_value(res["data"]["envGroupsForOwner"].take())?;
-    //     Ok(groups)
-    // }
-    //
-    // pub async fn create_env_var_group(&self, owner_id: &str, name: &str, vars: &[GqlEnvVar]) -> httpclient::Result<EnvGroup> {
-    //     let url = "https://api.render.com/graphql";
-    //     let gql = GqlRequest {
-    //         operation_name: "createEnvGroup",
-    //         variables: serde_json::json!({
-    //             "ownerId": owner_id,
-    //             "name": name,
-    //             "envVarInputs": vars,
-    //         }),
-    //         query: CREATE_ENV_GROUP,
-    //     };
-    //     let req = self.client
-    //         .post(url)
-    //         .json(&gql);
-    //     let res = self.authenticate(req)
-    //         .send_awaiting_body()
-    //         .await?;
-    //     let mut res: serde_json::Value = res.json()?;
-    //     let group: EnvGroup = serde_json::from_value(res["data"]["createEnvGroup"].take())?;
-    //     Ok(group)
-    // }
-    //
-    // pub async fn update_env_var_group(&self, group_id: &str, vars: &[GqlEnvVar]) -> httpclient::Result<EnvGroup> {
-    //     let url = "https://api.render.com/graphql";
-    //     let gql = GqlRequest {
-    //         operation_name: "updateEnvGroup",
-    //         variables: serde_json::json!({
-    //             "envGroupId": group_id,
-    //             "envVarInputs": vars,
-    //         }),
-    //         query: UPDATE_ENV_GROUP,
-    //     };
-    //     let req = self.client
-    //         .post(url)
-    //         .json(&gql);
-    //     let res = self.authenticate(req)
-    //         .send_awaiting_body()
-    //         .await?;
-    //     let mut res: serde_json::Value = res.json()?;
-    //     let group: EnvGroup = serde_json::from_value(res["data"]["updateEnvGroup"].take())?;
-    //     Ok(group)
-    // }
-
-    // pub async fn get_env_group(&self, group_id: &str) -> httpclient::Result<EnvGroup> {
-    //     let url = "https://api.render.com/graphql";
-    //     let gql = GqlRequest {
-    //         operation_name: "envGroup",
-    //         variables: serde_json::json!({
-    //             "id": group_id,
-    //         }),
-    //         query: GET_ENV_GROUP,
-    //     };
-    //     let req = self.client
-    //         .post(url)
-    //         .json(&gql);
-    //     let res = self.authenticate(req)
-    //         .send_awaiting_body()
-    //         .await?;
-    //     let mut res: serde_json::Value = res.json()?;
-    //     let group: EnvGroup = serde_json::from_value(res["data"]["envGroup"].take())?;
-    //     Ok(group)
-    // }
-// }
+pub mod model;
+pub mod request;
 mod serde;
+
 pub struct RenderClient {
     pub client: httpclient::Client,
     authentication: RenderAuthentication,
@@ -284,7 +53,7 @@ impl RenderClient {
     }
     /**List authorized users and teams
 
-[https://api-docs.render.com/reference/get-owners](https://api-docs.render.com/reference/get-owners)*/
+    [https://api-docs.render.com/reference/get-owners](https://api-docs.render.com/reference/get-owners)*/
     pub fn list_authorized_users_and_teams(
         &self,
     ) -> request::ListAuthorizedUsersAndTeamsRequest {
@@ -298,7 +67,7 @@ impl RenderClient {
     }
     /**Retrieve user or team
 
-[https://api-docs.render.com/reference/get-owner](https://api-docs.render.com/reference/get-owner)*/
+    [https://api-docs.render.com/reference/get-owner](https://api-docs.render.com/reference/get-owner)*/
     pub fn retrieve_user_or_team(
         &self,
         owner_id: &str,
@@ -310,7 +79,7 @@ impl RenderClient {
     }
     /**List services
 
-[https://api-docs.render.com/reference/get-services](https://api-docs.render.com/reference/get-services)*/
+    [https://api-docs.render.com/reference/get-services](https://api-docs.render.com/reference/get-services)*/
     pub fn list_services(&self) -> request::ListServicesRequest {
         request::ListServicesRequest {
             http_client: &self,
@@ -330,7 +99,7 @@ impl RenderClient {
     }
     /**Create service
 
-[https://api-docs.render.com/reference/create-service](https://api-docs.render.com/reference/create-service)*/
+    [https://api-docs.render.com/reference/create-service](https://api-docs.render.com/reference/create-service)*/
     pub fn create_service(&self) -> request::CreateServiceRequest {
         request::CreateServiceRequest {
             http_client: &self,
@@ -347,7 +116,7 @@ impl RenderClient {
     }
     /**Retrieve service
 
-[https://api-docs.render.com/reference/get-service](https://api-docs.render.com/reference/get-service)*/
+    [https://api-docs.render.com/reference/get-service](https://api-docs.render.com/reference/get-service)*/
     pub fn retrieve_service(&self, service_id: &str) -> request::RetrieveServiceRequest {
         request::RetrieveServiceRequest {
             http_client: &self,
@@ -356,7 +125,7 @@ impl RenderClient {
     }
     /**Delete service
 
-[https://api-docs.render.com/reference/delete-service](https://api-docs.render.com/reference/delete-service)*/
+    [https://api-docs.render.com/reference/delete-service](https://api-docs.render.com/reference/delete-service)*/
     pub fn delete_service(&self, service_id: &str) -> request::DeleteServiceRequest {
         request::DeleteServiceRequest {
             http_client: &self,
@@ -365,7 +134,7 @@ impl RenderClient {
     }
     /**Update service
 
-[https://api-docs.render.com/reference/update-service](https://api-docs.render.com/reference/update-service)*/
+    [https://api-docs.render.com/reference/update-service](https://api-docs.render.com/reference/update-service)*/
     pub fn update_service(&self, service_id: &str) -> request::UpdateServiceRequest {
         request::UpdateServiceRequest {
             http_client: &self,
@@ -378,7 +147,7 @@ impl RenderClient {
     }
     /**Retrieve environment variables
 
-[https://api-docs.render.com/reference/get-env-vars-for-service](https://api-docs.render.com/reference/get-env-vars-for-service)*/
+    [https://api-docs.render.com/reference/get-env-vars-for-service](https://api-docs.render.com/reference/get-env-vars-for-service)*/
     pub fn retrieve_environment_variables(
         &self,
         service_id: &str,
@@ -392,7 +161,7 @@ impl RenderClient {
     }
     /**Update environment variables
 
-[https://api-docs.render.com/reference/update-env-vars-for-service](https://api-docs.render.com/reference/update-env-vars-for-service)*/
+    [https://api-docs.render.com/reference/update-env-vars-for-service](https://api-docs.render.com/reference/update-env-vars-for-service)*/
     pub fn update_environment_variables(
         &self,
         body: Vec<EnvVar>,
@@ -406,7 +175,7 @@ impl RenderClient {
     }
     /**Retrieve headers
 
-[https://api-docs.render.com/reference/get-headers](https://api-docs.render.com/reference/get-headers)*/
+    [https://api-docs.render.com/reference/get-headers](https://api-docs.render.com/reference/get-headers)*/
     pub fn retrieve_headers(&self, service_id: &str) -> request::RetrieveHeadersRequest {
         request::RetrieveHeadersRequest {
             http_client: &self,
@@ -420,7 +189,7 @@ impl RenderClient {
     }
     /**Retrieve redirect and rewrite rules
 
-[https://api-docs.render.com/reference/get-routes](https://api-docs.render.com/reference/get-routes)*/
+    [https://api-docs.render.com/reference/get-routes](https://api-docs.render.com/reference/get-routes)*/
     pub fn retrieve_redirect_and_rewrite_rules(
         &self,
         service_id: &str,
@@ -437,7 +206,7 @@ impl RenderClient {
     }
     /**Suspend service
 
-[https://api-docs.render.com/reference/suspend-service-1](https://api-docs.render.com/reference/suspend-service-1)*/
+    [https://api-docs.render.com/reference/suspend-service-1](https://api-docs.render.com/reference/suspend-service-1)*/
     pub fn suspend_service(&self, service_id: &str) -> request::SuspendServiceRequest {
         request::SuspendServiceRequest {
             http_client: &self,
@@ -446,7 +215,7 @@ impl RenderClient {
     }
     /**Resume service
 
-[https://api-docs.render.com/reference/resume-service-1](https://api-docs.render.com/reference/resume-service-1)*/
+    [https://api-docs.render.com/reference/resume-service-1](https://api-docs.render.com/reference/resume-service-1)*/
     pub fn resume_service(&self, service_id: &str) -> request::ResumeServiceRequest {
         request::ResumeServiceRequest {
             http_client: &self,
@@ -455,7 +224,7 @@ impl RenderClient {
     }
     /**Scale service to desired number of instances
 
-[https://api-docs.render.com/reference/scale-service](https://api-docs.render.com/reference/scale-service)*/
+    [https://api-docs.render.com/reference/scale-service](https://api-docs.render.com/reference/scale-service)*/
     pub fn scale_service_to_desired_number_of_instances(
         &self,
         service_id: &str,
@@ -468,7 +237,7 @@ impl RenderClient {
     }
     /**List deploys
 
-[https://api-docs.render.com/reference/get-deploys](https://api-docs.render.com/reference/get-deploys)*/
+    [https://api-docs.render.com/reference/get-deploys](https://api-docs.render.com/reference/get-deploys)*/
     pub fn list_deploys(&self, service_id: &str) -> request::ListDeploysRequest {
         request::ListDeploysRequest {
             http_client: &self,
@@ -481,7 +250,7 @@ impl RenderClient {
     }
     /**Trigger a deploy
 
-[https://api-docs.render.com/reference/create-deploy](https://api-docs.render.com/reference/create-deploy)*/
+    [https://api-docs.render.com/reference/create-deploy](https://api-docs.render.com/reference/create-deploy)*/
     pub fn trigger_deploy(&self, service_id: &str) -> request::TriggerDeployRequest {
         request::TriggerDeployRequest {
             http_client: &self,
@@ -491,7 +260,7 @@ impl RenderClient {
     }
     /**Retrieve deploy
 
-[https://api-docs.render.com/reference/get-deploy](https://api-docs.render.com/reference/get-deploy)*/
+    [https://api-docs.render.com/reference/get-deploy](https://api-docs.render.com/reference/get-deploy)*/
     pub fn retrieve_deploy(
         &self,
         deploy_id: &str,
@@ -505,7 +274,7 @@ impl RenderClient {
     }
     /**List custom domains
 
-[https://api-docs.render.com/reference/get-custom-domains](https://api-docs.render.com/reference/get-custom-domains)*/
+    [https://api-docs.render.com/reference/get-custom-domains](https://api-docs.render.com/reference/get-custom-domains)*/
     pub fn list_custom_domains(
         &self,
         service_id: &str,
@@ -524,7 +293,7 @@ impl RenderClient {
     }
     /**Add custom domain
 
-[https://api-docs.render.com/reference/create-custom-domain](https://api-docs.render.com/reference/create-custom-domain)*/
+    [https://api-docs.render.com/reference/create-custom-domain](https://api-docs.render.com/reference/create-custom-domain)*/
     pub fn add_custom_domain(
         &self,
         service_id: &str,
@@ -537,7 +306,7 @@ impl RenderClient {
     }
     /**Retrieve custom domain
 
-[https://api-docs.render.com/reference/get-custom-domain](https://api-docs.render.com/reference/get-custom-domain)*/
+    [https://api-docs.render.com/reference/get-custom-domain](https://api-docs.render.com/reference/get-custom-domain)*/
     pub fn retrieve_custom_domain(
         &self,
         custom_domain_id_or_name: &str,
@@ -551,7 +320,7 @@ impl RenderClient {
     }
     /**Delete custom domain
 
-[https://api-docs.render.com/reference/delete-custom-domain](https://api-docs.render.com/reference/delete-custom-domain)*/
+    [https://api-docs.render.com/reference/delete-custom-domain](https://api-docs.render.com/reference/delete-custom-domain)*/
     pub fn delete_custom_domain(
         &self,
         custom_domain_id_or_name: &str,
@@ -565,7 +334,7 @@ impl RenderClient {
     }
     /**Verify DNS configuration
 
-[https://api-docs.render.com/reference/refresh-custom-domain](https://api-docs.render.com/reference/refresh-custom-domain)*/
+    [https://api-docs.render.com/reference/refresh-custom-domain](https://api-docs.render.com/reference/refresh-custom-domain)*/
     pub fn verify_dns_configuration(
         &self,
         custom_domain_id_or_name: &str,
@@ -579,7 +348,7 @@ impl RenderClient {
     }
     /**List jobs
 
-[https://api-docs.render.com/reference/list-job](https://api-docs.render.com/reference/list-job)*/
+    [https://api-docs.render.com/reference/list-job](https://api-docs.render.com/reference/list-job)*/
     pub fn list_jobs(&self, service_id: &str) -> request::ListJobsRequest {
         request::ListJobsRequest {
             http_client: &self,
@@ -597,7 +366,7 @@ impl RenderClient {
     }
     /**Create job
 
-[https://api-docs.render.com/reference/post-job](https://api-docs.render.com/reference/post-job)*/
+    [https://api-docs.render.com/reference/post-job](https://api-docs.render.com/reference/post-job)*/
     pub fn create_job(&self, service_id: &str) -> request::CreateJobRequest {
         request::CreateJobRequest {
             http_client: &self,
@@ -608,7 +377,7 @@ impl RenderClient {
     }
     /**Retrieve job
 
-[https://api-docs.render.com/reference/get-job](https://api-docs.render.com/reference/get-job)*/
+    [https://api-docs.render.com/reference/get-job](https://api-docs.render.com/reference/get-job)*/
     pub fn retrieve_job(
         &self,
         job_id: &str,
@@ -622,7 +391,7 @@ impl RenderClient {
     }
     /**List env groups
 
-[https://api-docs.render.com/reference/list-env-groups](https://api-docs.render.com/reference/list-env-groups)*/
+    [https://api-docs.render.com/reference/list-env-groups](https://api-docs.render.com/reference/list-env-groups)*/
     pub fn list_env_groups(&self) -> request::ListEnvGroupsRequest {
         request::ListEnvGroupsRequest {
             http_client: &self,
@@ -630,7 +399,7 @@ impl RenderClient {
     }
     /**Retrieve env group
 
-[https://api-docs.render.com/reference/get-env-group](https://api-docs.render.com/reference/get-env-group)*/
+    [https://api-docs.render.com/reference/get-env-group](https://api-docs.render.com/reference/get-env-group)*/
     pub fn retrieve_env_group(
         &self,
         env_group_id: &str,

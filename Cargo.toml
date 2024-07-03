@@ -1,7 +1,7 @@
 [package]
 name = "render-api"
 edition = "2021"
-version = "1.0.3"
+version = "1.1.0"
 description = "Render client, generated from the OpenAPI spec."
 homepage = "https://github.com/libninjacom/render-rs"
 documentation = "https://docs.rs/render-api"
@@ -14,7 +14,7 @@ members = []
 
 [dependencies]
 futures = "0.3.25"
-httpclient = "0.15.0"
+httpclient = "0.23.9"
 serde_json = "1.0.81"
 
 [dependencies.chrono]
@@ -35,166 +35,4 @@ name = "render_api"
 doctest = false
 edition = "2021"
 crate-type = ["rlib"]
-required-features = []
-
-[[example]]
-path = "examples/add_custom_domain.rs"
-name = "add_custom_domain"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/create_job.rs"
-name = "create_job"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/create_service.rs"
-name = "create_service"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/delete_custom_domain.rs"
-name = "delete_custom_domain"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/delete_service.rs"
-name = "delete_service"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/list_authorized_users_and_teams.rs"
-name = "list_authorized_users_and_teams"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/list_custom_domains.rs"
-name = "list_custom_domains"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/list_deploys.rs"
-name = "list_deploys"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/list_env_groups.rs"
-name = "list_env_groups"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/list_jobs.rs"
-name = "list_jobs"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/list_services.rs"
-name = "list_services"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/resume_service.rs"
-name = "resume_service"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/retrieve_custom_domain.rs"
-name = "retrieve_custom_domain"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/retrieve_deploy.rs"
-name = "retrieve_deploy"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/retrieve_env_group.rs"
-name = "retrieve_env_group"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/retrieve_environment_variables.rs"
-name = "retrieve_environment_variables"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/retrieve_headers.rs"
-name = "retrieve_headers"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/retrieve_job.rs"
-name = "retrieve_job"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/retrieve_redirect_and_rewrite_rules.rs"
-name = "retrieve_redirect_and_rewrite_rules"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/retrieve_service.rs"
-name = "retrieve_service"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/retrieve_user_or_team.rs"
-name = "retrieve_user_or_team"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/scale_service_to_desired_number_of_instances.rs"
-name = "scale_service_to_desired_number_of_instances"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/suspend_service.rs"
-name = "suspend_service"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/trigger_deploy.rs"
-name = "trigger_deploy"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/update_environment_variables.rs"
-name = "update_environment_variables"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/update_service.rs"
-name = "update_service"
-edition = "2021"
-required-features = []
-
-[[example]]
-path = "examples/verify_dns_configuration.rs"
-name = "verify_dns_configuration"
-edition = "2021"
 required-features = []

@@ -172,9 +172,9 @@ use crate::model::*;
     //         .post(url)
     //         .json(&gql);
     //     let res = self.authenticate(req)
-    //         .send_awaiting_body()
+    //
     //         .await?;
-    //     let mut res: serde_json::Value = res.json()?;
+    //     let mut res: serde_json::Value = res.json().map_err(Into::into)?;
     //     let groups: Vec<EnvGroup> = serde_json::from_value(res["data"]["envGroupsForOwner"].take())?;
     //     Ok(groups)
     // }
@@ -194,9 +194,9 @@ use crate::model::*;
     //         .post(url)
     //         .json(&gql);
     //     let res = self.authenticate(req)
-    //         .send_awaiting_body()
+    //
     //         .await?;
-    //     let mut res: serde_json::Value = res.json()?;
+    //     let mut res: serde_json::Value = res.json().map_err(Into::into)?;
     //     let group: EnvGroup = serde_json::from_value(res["data"]["createEnvGroup"].take())?;
     //     Ok(group)
     // }
@@ -215,9 +215,9 @@ use crate::model::*;
     //         .post(url)
     //         .json(&gql);
     //     let res = self.authenticate(req)
-    //         .send_awaiting_body()
+    //
     //         .await?;
-    //     let mut res: serde_json::Value = res.json()?;
+    //     let mut res: serde_json::Value = res.json().map_err(Into::into)?;
     //     let group: EnvGroup = serde_json::from_value(res["data"]["updateEnvGroup"].take())?;
     //     Ok(group)
     // }
@@ -235,9 +235,9 @@ use crate::model::*;
     //         .post(url)
     //         .json(&gql);
     //     let res = self.authenticate(req)
-    //         .send_awaiting_body()
+    //
     //         .await?;
-    //     let mut res: serde_json::Value = res.json()?;
+    //     let mut res: serde_json::Value = res.json().map_err(Into::into)?;
     //     let group: EnvGroup = serde_json::from_value(res["data"]["envGroup"].take())?;
     //     Ok(group)
     // }

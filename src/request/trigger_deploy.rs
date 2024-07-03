@@ -1,6 +1,7 @@
 use serde_json::json;
 use crate::model::*;
 use crate::RenderClient;
+use httpclient::InMemoryResponseExt;
 /**Create this with the associated client method.
 
 That method takes required values as arguments. Set optional values using builder methods on this struct.*/
@@ -22,8 +23,8 @@ impl<'a> TriggerDeployRequest<'a> {
             r = r.json(json!({ "clearCache" : unwrapped }));
         }
         r = self.http_client.authenticate(r);
-        let res = r.send_awaiting_body().await?;
-        res.json()
+        let res = r.await?;
+        res.json().map_err(Into::into)
     }
     pub fn clear_cache(mut self, clear_cache: &str) -> Self {
         self.clear_cache = Some(clear_cache.to_owned());

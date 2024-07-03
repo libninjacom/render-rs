@@ -1,6 +1,7 @@
 use serde_json::json;
 use crate::model::*;
 use crate::RenderClient;
+use httpclient::InMemoryResponseExt;
 /**Create this with the associated client method.
 
 That method takes required values as arguments. Set optional values using builder methods on this struct.*/
@@ -38,8 +39,8 @@ impl<'a> RetrieveHeadersRequest<'a> {
             r = r.query("value", &unwrapped.to_string());
         }
         r = self.http_client.authenticate(r);
-        let res = r.send_awaiting_body().await?;
-        res.json()
+        let res = r.await?;
+        res.json().map_err(Into::into)
     }
     pub fn cursor(mut self, cursor: &str) -> Self {
         self.cursor = Some(cursor.to_owned());

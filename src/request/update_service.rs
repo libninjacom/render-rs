@@ -1,6 +1,7 @@
 use serde_json::json;
 use crate::model::*;
 use crate::RenderClient;
+use httpclient::InMemoryResponseExt;
 /**Create this with the associated client method.
 
 That method takes required values as arguments. Set optional values using builder methods on this struct.*/
@@ -32,8 +33,8 @@ impl<'a> UpdateServiceRequest<'a> {
             r = r.json(json!({ "serviceDetails" : unwrapped }));
         }
         r = self.http_client.authenticate(r);
-        let res = r.send_awaiting_body().await?;
-        res.json()
+        let res = r.await?;
+        res.json().map_err(Into::into)
     }
     pub fn auto_deploy(mut self, auto_deploy: &str) -> Self {
         self.auto_deploy = Some(auto_deploy.to_owned());
